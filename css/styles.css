@@ -1,0 +1,17 @@
+.user-list {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.user-table {
+    td {
+        vertical-align: middle;
+    }
+}
+
+.user-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
