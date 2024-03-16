@@ -108,8 +108,39 @@ function inputSearch(evt) {
     }
     return false;
   })
-
   renderUsers(filteredUsers)
+}
+
+function sortAsc() {
+  const collator = new Intl.Collator(undefined, { sensitivity: 'base' })
+
+  users.sort((a, b) => {
+    return collator.compare(a.fullname, b.fullname)
+  })
+
+  renderUsers(users);
+}
+
+function sortDesc() {
+  
+  const collator = new Intl.Collator(undefined, { sensitivity: 'base' })
+
+  users.sort((a, b) => {
+    // #Método 2
+    return collator.compare(b.fullname, a.fullname)
+
+    // #Método 1
+    // if(a.fullname.toLowerCase() < b.fullname.toLowerCase()) {
+    //   return 1;  
+    // }
+    // if(a.fullname.toLowerCase() > b.fullname.toLowerCase()) {
+    //   return -1;
+    // }
+    // return 0;
+  })
+
+  renderUsers(users);
+
 
 }
 
