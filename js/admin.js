@@ -72,9 +72,11 @@ const tableHTML = document.getElementById("table-container");
 // Obtener el body de la tabla
 const tableBodyHTML = document.getElementById("table-body");
 
-console.dir(tableBodyHTML);
+function renderUsers(arrayUsers) {
+  // Cada vez que llamamos la función renderUsers limpiamos el body de la tabla y volvemos a pintar
+  tableBodyHTML.innerHTML = '';
 
-users.forEach((user) => {
+  arrayUsers.forEach((user) => {
     
     tableBodyHTML.innerHTML += `<tr>
                                   <td class="user-image">
@@ -85,5 +87,29 @@ users.forEach((user) => {
                                   <td class="user-location">${user.location}</td>
                                   <td class="user-actions"></td>
                                 </tr>`
+    })
+}
 
-})
+renderUsers(users);
+
+
+
+
+function inputSearch(evt) {
+  // Tenemos que tomar lo que la persona ha escrito en el input
+  console.log(evt.target.value)
+  const search = evt.target.value.toLowerCase();
+  // Luego deberiamos recorrer el array y filtrar por todos aquellos usuarios cuyo nombre coincida con la busqueda
+  // Deberiamos pintar nuevamente la tabla con los resultados de la busqueda
+  const filteredUsers = users.filter((usr) => {
+    // Filter para devolver un usuario yo tengo que asegurarme de retornar un true bajo cierta condicion
+    if(usr.fullname.toLowerCase().includes(search)) {
+      return true;
+    }
+    return false;
+  })
+
+  renderUsers(filteredUsers)
+
+}
+

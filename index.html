@@ -27,7 +27,17 @@
             </div>
 
             <div class="col-12 col-lg-8">
-                <div class="user-list bg-info-subtle" id="table-container">
+                <div class="user-list" id="table-container">
+                    
+                    <!-- #User search -->
+                    <div class="user-search">
+                        <div class="mb-3">
+                            <label for="user-search" class="form-label">Buscar usuario</label>
+                            <input type="text" class="form-control" id="user-search" onkeyup="inputSearch(event)">
+                        </div>
+                    </div>
+                    
+                    <!-- #Tabla de usuarios -->
                     <table class="user-table table table-dark table-striped">
                         <thead>
                           <tr>

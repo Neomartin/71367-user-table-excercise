@@ -2,6 +2,9 @@
     width: 100%;
     overflow-x: auto;
 }
+.user-search {
+    padding: .5rem;
+}
 
 .user-table {
     td {
