@@ -76,7 +76,7 @@ function renderUsers(arrayUsers) {
   // Cada vez que llamamos la función renderUsers limpiamos el body de la tabla y volvemos a pintar
   tableBodyHTML.innerHTML = '';
 
-  arrayUsers.forEach((user) => {
+  arrayUsers.forEach((user, index) => {
     
     tableBodyHTML.innerHTML += `<tr>
                                   <td class="user-image">
@@ -85,7 +85,14 @@ function renderUsers(arrayUsers) {
                                   <td class="user-name">${user.fullname}</td>
                                   <td class="user-email">${user.email}</td>
                                   <td class="user-location">${user.location}</td>
-                                  <td class="user-actions"></td>
+                                  <td class="user-actions">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.id}')">
+                                      <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm">
+                                      <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                  </td>
                                 </tr>`
     })
 }
@@ -93,7 +100,26 @@ function renderUsers(arrayUsers) {
 renderUsers(users);
 
 
+function deleteUser(idUser) {
+  // debería buscar el indice de ese elemento en el array
+  const indice = users.findIndex((usr) => {
+    // Voy a checkear cuando el idUser que es la persona que quiero borrar coincida con el id de mi usr
+    if(usr.id === idUser) {
+      return true
+    }
+  })
+  // contemplar si el usuario no existia
+  if(indice === -1) {
+    // alert("El usuario no se encontró")
+    Swal.fire({ title: "Error al borrar", text: "No se pudo borrar el usuario", icon: "error"})
+    return
+  }
+  // debería eliminar ese elemento del array
+  users.splice(indice, 1)
 
+  // debería volver a pintar la tabla
+  renderUsers(users)
+}
 
 function inputSearch(evt) {
   // Tenemos que tomar lo que la persona ha escrito en el input
