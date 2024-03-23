@@ -17,7 +17,7 @@ const users = [{
     id: '2',
     active: false,
     password: 'password456',
-    bornDate: new Date('1998-05-05').getTime(),
+    bornDate: 894326400000,
     location: 'Mendoza',
     image: 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/mario-kart-for-wii-u/f/f5/Mk8icondaisy.png?width=1280',
     role: 'CLIENT_ROLE'
@@ -59,7 +59,7 @@ const users = [{
     fullname: 'Daniel Lee',
     age: 34,
     email: 'daniel.lee@example.com',
-    id: '6',
+    id: '6', // se va a generar automaticamente
     active: false,
     password: 'password303',
     bornDate: new Date('1989-07-07').getTime(),
@@ -71,13 +71,57 @@ const users = [{
 const tableHTML = document.getElementById("table-container");
 // Obtener el body de la tabla
 const tableBodyHTML = document.getElementById("table-body");
+const totalHTML = document.getElementById('total');
+// Obtener el formulario del HTML
+const userFormHTML = document.querySelector('#user-form');
+
+
+userFormHTML.addEventListener("submit", (evento) => {
+
+  evento.preventDefault()
+
+  const el = evento.target.elements
+
+  if(el["password-repeat"].value !== el.password.value ) {
+    Swal.fire("Error", "Las contraseñas no coinciden", "warning")
+    return // evito que se ejecuten las siguientes lineas si se ingreso a este if
+  }
+
+
+  const nuevoUsuario = {
+    id: crypto.randomUUID(),
+    fullname: el.fullname.value,
+    email: el.email.value,
+    password: el.password.value,
+    location: el.location.value,
+    image: el.image.value,
+    // Transformo la fecha obtenida 2024-03-22 en un timestamp en milisegundos
+    bornDate: new Date( el.bornDate.value ).getTime(),
+    // Obtengo el valor checked para obtener un booleano true o false según corresponda
+    active: el.active.checked,
+    // Tomo el valor como un tipo numérico
+    // age: el.age.valueAsNumber
+  }
+
+  users.push(nuevoUsuario)
+
+  renderUsers(users)
+
+  
+
+})
+
 
 function renderUsers(arrayUsers) {
   // Cada vez que llamamos la función renderUsers limpiamos el body de la tabla y volvemos a pintar
   tableBodyHTML.innerHTML = '';
 
+  let total = 0;
+  
   arrayUsers.forEach((user, index) => {
     
+    total += user.age;
+
     tableBodyHTML.innerHTML += `<tr>
                                   <td class="user-image">
                                       <img src="${user.image}" alt="${user.fullname} avatar">
@@ -94,11 +138,13 @@ function renderUsers(arrayUsers) {
                                     </button>
                                   </td>
                                 </tr>`
-    })
+    }) // End forEach
+
+
+    totalHTML.innerText = `$ ${total}`
+
 }
-
 renderUsers(users);
-
 
 function deleteUser(idUser) {
   // debería buscar el indice de ese elemento en el array
