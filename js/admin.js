@@ -68,12 +68,18 @@ const users = [{
   },
 ];
 
+let isEditing;
+
 const tableHTML = document.getElementById("table-container");
 // Obtener el body de la tabla
 const tableBodyHTML = document.getElementById("table-body");
 const totalHTML = document.getElementById('total');
 // Obtener el formulario del HTML
 const userFormHTML = document.querySelector('#user-form');
+// Obtenemos los elementos elementos del formulario para jugar con sus estilos según este editando o agregando un producto
+const btnSumbitHTML = userFormHTML.querySelector('button[type="submit"]');
+const formContainerHTML = document.querySelector(".user-form-container")
+
 
 let userButtonsEdit;
 
@@ -92,9 +98,18 @@ userFormHTML.addEventListener("submit", (evento) => {
     return // evito que se ejecuten las siguientes lineas si se ingreso a este if
   }
 
+  // let id;
+
+  // if(isEditing) {
+  //   id = isEditing;
+  // } else {
+  //   id = crypto.randomUUID()
+  // }
 
   const nuevoUsuario = {
-    id: crypto.randomUUID(),
+    // Operador ternario
+    id: isEditing ? isEditing : crypto.randomUUID(),
+
     fullname: el.fullname.value,
     email: el.email.value,
     password: el.password.value,
@@ -108,9 +123,33 @@ userFormHTML.addEventListener("submit", (evento) => {
     // age: el.age.valueAsNumber
   }
 
-  users.push(nuevoUsuario)
+  console.log(nuevoUsuario)
+
+  // Debo establecer un condicional para saber si tengo que pushear o agregar un elemento al array (nuevo usuario) o si estoy editando y tengo que buscar un usuario y reemplazarlo
+  if (isEditing) {
+    // Buscar el usuario y reemplarlo
+    const userIndex = users.findIndex(user => {
+      return user.id === isEditing;
+    })
+
+    users[userIndex] = nuevoUsuario
+
+  } else {
+    // Agregar el usuario ya que es un user nuevo
+    users.push(nuevoUsuario)
+  }
 
 
+  renderUsers(users)
+
+  isEditing = undefined;
+  // Formateamos el formulario
+  formContainerHTML.classList.remove("form-edit")
+
+  btnSumbitHTML.classList.add('btn-primary')
+  btnSumbitHTML.classList.remove('btn-success')
+
+  btnSumbitHTML.innerText = "Editar"
   // Limpiamos los input del formulario
   userFormHTML.reset()
 
@@ -170,6 +209,7 @@ function updateEditButtons() {
 
 function completeUserForm(idUser) {
 
+  isEditing = idUser;
   console.log(`Complete FORM ${idUser}`)
   // Buscar el usuario y obtenerlo 
   const user = users.find((usr) => {
@@ -195,8 +235,17 @@ function completeUserForm(idUser) {
   el.image.value = user.image;
   el.active.checked = user.active;
   el.bornDate.valueAsNumber = user.bornDate;
+  // Obtengo el botón submit del formulario para cambiar sus estilos y el texto del botón
 
 
+  // formContainerHTML.parentElement()
+
+  formContainerHTML.classList.add("form-edit")
+
+  btnSumbitHTML.classList.remove('btn-primary')
+  btnSumbitHTML.classList.add('btn-success')
+
+  btnSumbitHTML.innerText = "Editar"
 
 }
 
