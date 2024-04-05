@@ -64,7 +64,8 @@ const users = [{
     password: 'password303',
     bornDate: new Date('1989-07-07').getTime(),
     location: 'Buenos Aires',
-    image: 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/mario-kart-for-wii-u/b/bf/Mk8iconmario.png?width=325'
+    image: 'https://oyster.ignimgs.com/mediawiki/apis.ign.com/mario-kart-for-wii-u/b/bf/Mk8iconmario.png?width=325',
+
   },
 ];
 
@@ -158,7 +159,7 @@ userFormHTML.addEventListener("submit", (evento) => {
 
 })
 
-
+// Funcion encargada de pintar los usuarios en el body de la tabla
 function renderUsers(arrayUsers) {
   // Cada vez que llamamos la función renderUsers limpiamos el body de la tabla y volvemos a pintar
   tableBodyHTML.innerHTML = '';
@@ -176,6 +177,10 @@ function renderUsers(arrayUsers) {
                                   <td class="user-name">${user.fullname}</td>
                                   <td class="user-email">${user.email}</td>
                                   <td class="user-location">${user.location}</td>
+                                  <td class="user-date"> 
+                                        ${ transformTimestampToDate(user.bornDate) } <br/>
+                                        <small>${ calculateAge(user.bornDate)} </small>      
+                                  </td>
                                   <td class="user-actions">
                                     <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.id}')">
                                       <i class="fa-solid fa-trash"></i>
