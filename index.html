@@ -31,12 +31,14 @@
 
     <link rel="stylesheet" href="/css/styles.css" />
 
+    <!-- <script src="/js/utils/date.js"></script> -->
 
-    <script src="/js/utils/date.js"></script>
-
-    <script src="/js/admin.js" defer></script>
+    <script src="/js/admin.js" type="module" defer></script>
   </head>
   <body>
+    <!-- Enlance con forma de botón para ir a la página login -->
+    <a href="/pages/login/login.html" class="btn btn-dark m-1">INGRESAR</a>
+
     <h1 class="bg-primary text-white p-2">Admin Dashboard</h1>
 
     <div class="container-fluid">
@@ -148,25 +150,20 @@
                 <label for="user-search" class="form-label"
                   >Buscar usuario</label
                 >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="user-search"
-                  onkeyup="inputSearch(event)"
-                />
+                <input type="text" class="form-control" id="user-search" />
               </div>
             </div>
 
             <div class="px-2 mb-3">
               <button
-                onclick="sortDesc()"
+                id="sortDesc"
                 class="btn btn-sm btn-primary"
                 title="Ordenar de forma descendente"
               >
                 <i class="fa-solid fa-arrow-down"></i>
               </button>
               <button
-                onclick="sortAsc()"
+                id="sortAsc"
                 class="btn btn-sm btn-primary"
                 title="Ordenar de forma ascendente"
               >

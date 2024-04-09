@@ -1,14 +1,14 @@
 // Función para transformar un timestamp a una string fecha
-function transformTimestampToDate(dateTimestamp) {
+export function transformTimestampToDate(dateTimestamp) {
     // // Debe recibir un valor en timestamp
     // const date = new Date(dateTimestamp)
     // // Debe devolver una fecha en formato string 01/05/2024
     // let day = date.getDate();
-    
+
     // if(day < 10) {
     //     day = "0" + day
     // }
-    
+
     // let month = date.getMonth() + 1; // EL mes se devuelve arrancando con enero 0
     //                                 // El mes sea menor a 10 agregar el 0 delante
     // month = (month < 10) ? "0" + month : month
@@ -27,37 +27,43 @@ function transformTimestampToDate(dateTimestamp) {
     return date;
 }
 // Función para calcular la edad del usuario a partir del bornDate
-function calculateAge(dateTimestamp) {
+export function calculateAge(dateTimestamp) {
     // Calcular la edad del usuario
-        // 1- Realizar resta del timestamp actual co la fecha de nacimiento y trasnformar eso a años
+    // 1- Realizar resta del timestamp actual con la fecha de nacimiento y trasnformar eso a años
+    const now = new Date().getTime();
 
-        // 2- Transformar el timestamp a fecha y hacer calculos entre en año, el mes y el día
+    const diff = now - dateTimestamp;
 
-        // a. Obtener fecha actual en formato Date
-        const nowDate = new Date();
-        const nowYear = nowDate.getFullYear();
-        const nowMonth = nowDate.getMonth();
-        const nowDay = nowDate.getDate();
+    const age = parseInt(diff / 1000 / 60 / 60 / 24 / 365.25)
 
-        // b. Transformar timestamp a formato Date
-        const bornDate = new Date(dateTimestamp)
-        const bornYear = bornDate.getFullYear();
-        const bornDay = bornDate.getDate();
-        const bornMonth = bornDate.getMonth();
-        // c...
+    return age;
 
-        let age = nowYear - bornYear;
+    // 2- Transformar el timestamp a fecha y hacer calculos entre en año, el mes y el día
 
-        if(bornMonth > nowMonth) {
-            age = age - 1;
-            return age
-        }
+    // // a. Obtener fecha actual en formato Date
+    // const nowDate = new Date();
+    // const nowYear = nowDate.getFullYear();
+    // const nowMonth = nowDate.getMonth();
+    // const nowDay = nowDate.getDate();
 
-        if(bornMonth === nowMonth && bornDay > nowDay) {
-            age = age - 1;
-            return age
-        }
+    // // b. Transformar timestamp a formato Date
+    // const bornDate = new Date(dateTimestamp)
+    // const bornYear = bornDate.getFullYear();
+    // const bornDay = bornDate.getDate();
+    // const bornMonth = bornDate.getMonth();
+    // // c...
 
-        return age;
+    // let age = nowYear - bornYear;
+
+    // if(bornMonth > nowMonth) {
+    //     age = age - 1;
+    //     return age
+    // }
+
+    // if(bornMonth === nowMonth && bornDay > nowDay) {
+    //     age = age - 1;
+    //     return age
+    // }
+
+    // return age;
 }
-

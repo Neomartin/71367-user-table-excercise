@@ -1,3 +1,9 @@
+import {
+  transformTimestampToDate,
+  calculateAge
+} from "./utils/date.js"
+
+
 const users = [{
     fullname: 'John Doe',
     age: 30,
@@ -69,9 +75,20 @@ const users = [{
   },
 ];
 
+// localStorage.setItem("usuarios", JSON.stringify(users))
+
 let isEditing;
 
 const tableHTML = document.getElementById("table-container");
+
+// Obtenemos el input search
+const inputSearchHTML = document.getElementById("user-search")
+// Escuchamos el evento keyup y llamamos a la funcion filtrar mandando el evento que esta fn espera
+inputSearchHTML.addEventListener("keyup", (evento) => inputSearch(evento))
+// inputSearchHTML.addEventListener("keyup", inputSearch)
+
+
+
 // Obtener el body de la tabla
 const tableBodyHTML = document.getElementById("table-body");
 const totalHTML = document.getElementById('total');
@@ -182,7 +199,7 @@ function renderUsers(arrayUsers) {
                                         <small>${ calculateAge(user.bornDate)} </small>      
                                   </td>
                                   <td class="user-actions">
-                                    <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.id}')">
+                                    <button class="btn btn-danger btn-sm" data-borrar="${user.id}">
                                       <i class="fa-solid fa-trash"></i>
                                     </button>
                                     <button class="btn btn-primary btn-sm" data-edit="${user.id}" >
@@ -196,7 +213,29 @@ function renderUsers(arrayUsers) {
   totalHTML.innerText = `$ ${total}`
   // Una vez que pintamos la tabla obtenemos todos los botones con el atributo data-edit y se los asignamos a la variable userButtonsEdit
   updateEditButtons()
+  updateDeleteButtons()
+} // Fin de la fn render
+
+function updateDeleteButtons() {
+  // Obtengo todos los botones borrar de cada usuario en la lista de usuarios 
+  const userBtnsDelete = document.querySelectorAll("button[data-borrar]")
+
+  // Por cada botón obtenido los itero para agregar un listener del evento click en cada uno
+  userBtnsDelete.forEach(btn => btn.addEventListener("click", function (evt) {
+
+    // Cuando se haga click en un botón específico, tomo el VALOR del atributo data-delete para obtener el id
+    const id = evt.currentTarget.dataset.borrar;
+
+
+    // Llamo a la función deleteUser y le envío el ID
+    deleteUser(id);
+
+  }))
+
 }
+
+
+
 
 function updateEditButtons() {
   userButtonsEdit = document.querySelectorAll('button[data-edit]');
@@ -295,6 +334,9 @@ function inputSearch(evt) {
   })
   renderUsers(filteredUsers)
 }
+
+document.getElementById("sortAsc").addEventListener("click", sortAsc)
+document.getElementById("sortDesc").addEventListener("click", sortDesc)
 
 function sortAsc() {
   const collator = new Intl.Collator(undefined, {
