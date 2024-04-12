@@ -295,6 +295,7 @@ function completeUserForm(idUser) {
 
 
 function deleteUser(idUser) {
+
   // debería buscar el indice de ese elemento en el array
   const indice = users.findIndex((usr) => {
     // Voy a checkear cuando el idUser que es la persona que quiero borrar coincida con el id de mi usr
@@ -302,21 +303,32 @@ function deleteUser(idUser) {
       return true
     }
   })
+
   // contemplar si el usuario no existia
-  if (indice === -1) {
+  if (indice !== -1) {
     // alert("El usuario no se encontró")
     Swal.fire({
-      title: "Error al borrar",
+      title: "Realmente desea borrar",
       text: "No se pudo borrar el usuario",
-      icon: "error"
+      icon: "error",
+      showCancelButton: true,
+      // confirmButtonColor: "#3085d6",
+      // cancelButtonColor: "#d33",
+      confirmButtonText: "Borrar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // debería eliminar ese elemento del array
+        users.splice(indice, 1)
+
+        // debería volver a pintar la tabla
+        renderUsers(users)
+      } else {
+        console.log("No se borra")
+      }
     })
     return
   }
-  // debería eliminar ese elemento del array
-  users.splice(indice, 1)
 
-  // debería volver a pintar la tabla
-  renderUsers(users)
 }
 
 function inputSearch(evt) {

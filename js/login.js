@@ -51,14 +51,4 @@ formHTML.addEventListener("submit", function (evento) {
 
     }, 2000)
 
-
-
-
-
-
-
-
-
-
-
 })
